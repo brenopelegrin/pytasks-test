@@ -1,4 +1,6 @@
 def init(celery_app, **global_decorators):
+    authorized_task = global_decorators['authorized_task']
+
     @celery_app.task
     def add(x: int, y: int):
         return x + y
@@ -12,7 +14,7 @@ def init(celery_app, **global_decorators):
         from tasks.packs.test.resources import example_resource as myResource
         return(myResource.hypot(x, y))
 
-    @global_decorators['authorized_task']
+    @authorized_task
     @celery_app.task
     def myProtectedTask(x: int, y: int):
         return x+y
